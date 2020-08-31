@@ -41,50 +41,24 @@ export default {
     });
 
     map.on("load", function() {
+      const features = _.sortBy(data, "occurrences")
+        .reverse()
+        .map(skill => ({
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [skill.x * 340 - 170, skill.y * 140 - 70]
+          },
+          properties: {
+            ...skill
+          }
+        }));
+
       map.addSource("points", {
         type: "geojson",
         data: {
           type: "FeatureCollection",
-          features: _.sortBy(
-            Object.keys(data).map((key, i) => ({
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [data[key][0] * 340 - 170, data[key][1] * 140 - 70]
-              },
-              properties: {
-                id: i,
-                title: key,
-                weight: 10 + Math.random() * 10,
-                occurrences: Math.ceil(Math.random() * 100)
-              }
-            })),
-            "properties.occurrences"
-          ).reverse()
-        }
-      });
-      map.addSource("points2", {
-        type: "geojson",
-        data: {
-          type: "FeatureCollection",
-          features: _.sortBy(
-            Object.keys(data).map((key, i) => ({
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [
-                  -1 * (data[key][0] * 340 - 170),
-                  -1 * (data[key][1] * 140 - 70)
-                ]
-              },
-              properties: {
-                id: i,
-                title: key,
-                occurrences: Math.ceil(Math.random() * 100)
-              }
-            })),
-            "properties.occurrences"
-          ).reverse()
+          features
         }
       });
 
@@ -136,79 +110,11 @@ export default {
       });
 
       map.addLayer({
-        id: "heatmap2",
-        type: "heatmap",
-        source: "points2",
-        maxzoom: 9,
-        paint: {
-          // increase weight as diameter breast height increases
-          "heatmap-weight": {
-            property: "occurrences",
-            type: "exponential",
-            stops: [[0, 0], [100, 1]]
-          },
-          // increase intensity as zoom level increases
-          "heatmap-intensity": {
-            stops: [[11, 1], [15, 10]]
-          },
-          // use sequential color palette to use exponentially as the weight increases
-          "heatmap-color": [
-            "interpolate",
-            ["linear"],
-            ["heatmap-density"],
-            0,
-            "rgba(105, 184, 126, 0)",
-            0.1,
-            "rgba(105, 184, 126, .1)",
-            0.3,
-            "rgba(105, 184, 126, .3)",
-            0.5,
-            "rgba(105, 184, 126, .5)",
-            0.7,
-            "rgba(105, 184, 126, .7)",
-            1,
-            "rgba(105, 184, 126, 1)"
-          ],
-          // increase radius as zoom increases
-          "heatmap-radius": {
-            property: "occurrences",
-            stops: [[{ zoom: 0, value: 0 }, 10], [{ zoom: 5, value: 100 }, 200]]
-          },
-          // decrease opacity to transition into the circle layer
-          "heatmap-opacity": {
-            default: 1,
-            stops: [[3, 1], [5, 0.5]]
-          }
-        }
-      });
-
-      map.addLayer({
         id: "circles",
         source: "points",
         type: "circle",
         paint: {
           "circle-color": "#2A4365",
-          "circle-radius": {
-            property: "occurrences",
-            stops: [
-              [{ zoom: 0, value: 0 }, 1],
-              [{ zoom: 0, value: 100 }, 1],
-              [{ zoom: 5, value: 0 }, 10],
-              [{ zoom: 5, value: 100 }, 20]
-            ]
-          },
-          "circle-opacity": {
-            default: 1,
-            stops: [[3, 0.25], [4, 1]]
-          }
-        }
-      });
-      map.addLayer({
-        id: "circles2",
-        source: "points2",
-        type: "circle",
-        paint: {
-          "circle-color": "#38A169",
           "circle-radius": {
             property: "occurrences",
             stops: [
@@ -245,33 +151,13 @@ export default {
           }
         }
       });
-      map.addLayer({
-        id: "count2",
-        type: "symbol",
-        source: "points2",
-        layout: {
-          "text-field": ["get", "occurrences"],
-          "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-          "text-size": {
-            property: "occurrences",
-            stops: [[0, 10], [100, 16]]
-          },
-          "text-allow-overlap": true
-        },
-        paint: {
-          "text-color": "#fff",
-          "text-opacity": {
-            stops: [[3, 0], [4, 1]]
-          }
-        }
-      });
 
       map.addLayer({
         id: "labels",
         type: "symbol",
         source: "points",
         layout: {
-          "text-field": ["get", "title"],
+          "text-field": ["get", "name"],
           "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
           "text-offset": {
             stops: [[0, [0, 0]], [5, [0, 1]]]
@@ -284,29 +170,6 @@ export default {
         },
         paint: {
           "text-color": "#2B6CB0",
-          "text-halo-color": "#fff",
-          "text-halo-width": 1,
-          "text-halo-blur": 1
-        }
-      });
-      map.addLayer({
-        id: "labels2",
-        type: "symbol",
-        source: "points2",
-        layout: {
-          "text-field": ["get", "title"],
-          "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-          "text-offset": {
-            stops: [[0, [0, 0]], [5, [0, 1]]]
-          },
-          "text-anchor": "top",
-          "text-size": {
-            property: "occurrences",
-            stops: [[0, 10], [100, 22]]
-          }
-        },
-        paint: {
-          "text-color": "#2F855A",
           "text-halo-color": "#fff",
           "text-halo-width": 1,
           "text-halo-blur": 1
@@ -329,7 +192,7 @@ export default {
         var coordinates = e.features[0].geometry.coordinates.slice();
         var description = `
       Compétence <strong>${
-        e.features[0].properties.title
+        e.features[0].properties.name
       }</strong> présente chez <strong>${
           e.features[0].properties.occurrences
         } collaborateurs</strong>. Cliquez pour plus de détails.
