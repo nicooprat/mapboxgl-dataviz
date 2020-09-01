@@ -1,4 +1,15 @@
-export default [
+export const categories = [
+  {
+    name: "Digital",
+    color: "rgba(46, 117, 197, 1.0)"
+  },
+  {
+    name: "Marketing",
+    color: "rgba(52, 150, 95, 1.0)"
+  }
+];
+
+export const points = [
   {
     id: 0,
     name: "microsoft office",
@@ -163,8 +174,8 @@ export default [
   {
     id: 23,
     name: "negotiation",
-    x: 0,
-    y: 0.827,
+    x: 0.2,
+    y: 0.227,
     occurrences: 91
   },
   {
@@ -388,7 +399,7 @@ export default [
     id: 55,
     name: "teaching",
     x: 0.237,
-    y: 1,
+    y: 0.5,
     occurrences: 2
   },
   {
