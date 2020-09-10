@@ -10,6 +10,8 @@ import { categories } from "./data";
 
 export default {
   mounted() {
+    console.clear();
+
     mapboxgl.accessToken =
       "pk.eyJ1Ijoibmljb3ByYXQiLCJhIjoiY2lxOTd2YnBwMDA0Mmhza3FhdjNwMHJ0biJ9.DN7SuYgw4j0i0Pw4K-ZZqg";
 
@@ -37,6 +39,7 @@ export default {
     });
 
     const { clientWidth, clientHeight } = map.getContainer();
+    const ZOOM_PER_LEVEL = 2;
 
     const setup = ({ category, level, parentColor }) => {
       const color = parentColor || category.color;
@@ -44,12 +47,12 @@ export default {
 
       // First setup children and extend bounds from them
       (category.categories || []).forEach(category => {
-        const { bounds: boundsToAdd } = setup({
+        const { childrenBounds } = setup({
           category,
           level: level + 1,
           parentColor: color
         });
-        bounds.extend(boundsToAdd);
+        bounds.extend(childrenBounds);
       });
 
       const skills = category.skills.map(skill => ({
@@ -259,6 +262,13 @@ export default {
           ]
         }
       });
+      const stops = [
+        [ZOOM_PER_LEVEL * level - 1, level === 1 ? 1 : 0],
+        [ZOOM_PER_LEVEL * level, 1],
+        [ZOOM_PER_LEVEL * (level * 2) - 1, 1],
+        [ZOOM_PER_LEVEL * (level * 2), 0]
+      ];
+      console.table(stops);
       map.addLayer({
         id: `category-${category.name}`,
         source: `category-${category.name}`,
@@ -276,7 +286,7 @@ export default {
           "text-halo-width": 2,
           "text-halo-blur": 0,
           "text-opacity": {
-            stops: [[3, 1], [4, 0]]
+            stops
           }
         }
       });
@@ -294,13 +304,13 @@ export default {
       });
 
       return {
-        bounds
+        childrenBounds: bounds
       };
     };
 
-    map.on("load", () => {
-      categories.forEach(category => setup({ category, level: 1 }));
-    });
+    map.on("load", () =>
+      categories.forEach(category => setup({ category, level: 1 }))
+    );
   }
 };
 </script>
