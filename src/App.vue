@@ -187,9 +187,6 @@ export default {
         layout: {
           "text-field": ["get", "name"],
           "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-          "text-offset": {
-            stops: [[0, [0, 0]], [5, [0, 1]]]
-          },
           "text-anchor": "top",
           "text-size": {
             property: "occurrences",
@@ -200,7 +197,8 @@ export default {
           "text-color": color,
           "text-halo-color": "#fff",
           "text-halo-width": 1.5,
-          "text-halo-blur": 0
+          "text-halo-blur": 0,
+          "text-translate": [0, 15]
         }
       });
 
@@ -282,8 +280,8 @@ export default {
             "format",
             parentCategoryName,
             {
-              "font-scale": 0.75,
-              "text-font": ["literal", ["Open Sans Bold Italic"]]
+              "font-scale": 0.5,
+              "text-translate": [0, 20]
             },
             "\n",
             {},
@@ -301,13 +299,14 @@ export default {
           "text-field": textField,
           "text-font": ["Open Sans Bold"],
           "text-anchor": "top",
-          "text-size": 30
+          "text-size": 30,
+          "text-line-height": 1,
+          "text-letter-spacing": -0.025 // Avoid spaces to create halo gap
         },
         paint: {
           "text-color": color,
           "text-halo-color": "#fff",
-          "text-halo-width": 2,
-          "text-halo-blur": 0,
+          "text-halo-width": 10,
           "text-opacity": {
             stops
           }
@@ -325,7 +324,7 @@ export default {
       map.on("mouseleave", `category-${category.name}`, () => {
         map.getCanvas().style.cursor = "";
       });
-      debugger;
+
       return {
         childrenBounds: bounds
       };
