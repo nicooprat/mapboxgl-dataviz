@@ -10,8 +10,6 @@ import { categories } from "./data";
 
 export default {
   mounted() {
-    console.clear();
-
     mapboxgl.accessToken =
       "pk.eyJ1Ijoibmljb3ByYXQiLCJhIjoiY2lxOTd2YnBwMDA0Mmhza3FhdjNwMHJ0biJ9.DN7SuYgw4j0i0Pw4K-ZZqg";
 
@@ -41,16 +39,19 @@ export default {
     const { clientWidth, clientHeight } = map.getContainer();
     const ZOOM_PER_LEVEL = 2;
 
-    const setup = ({ category, level, parentColor }) => {
+    const setup = ({ category, level, parentColor, parentCategoryName }) => {
       const color = parentColor || category.color;
       const bounds = new mapboxgl.LngLatBounds();
 
       // First setup children and extend bounds from them
-      (category.categories || []).forEach(category => {
+      (category.categories || []).forEach(child => {
         const { childrenBounds } = setup({
-          category,
+          category: child,
           level: level + 1,
-          parentColor: color
+          parentColor: color,
+          parentCategoryName: [parentCategoryName, category.name]
+            .filter(Boolean)
+            .join(" > ")
         });
         bounds.extend(childrenBounds);
       });
@@ -256,21 +257,49 @@ export default {
           ]
         }
       });
+
+      // With ZOOM_PER_LEVEL = 2, results = [zoom, opacity]
+      // Level 1:
+      // [1, 1] --> first level, so it's visible at first
+      // [2, 1] --> visible at target zoom level (1*2)
+      // [3, 1] --> start fade out when next level fade in starts
+      // [4, 0] --> end fade out when next level fade in ends
+      // Level 2:
+      // [3, 0] --> invisible at first, start fade in
+      // [4, 1] --> end fade in at target zoom level (2*2)
+      // [7, 1] --> start fade out when next level fade in starts
+      // [8, 0] --> end fade out when next level fade in ends
+
       const stops = [
         [ZOOM_PER_LEVEL * level - 1, level === 1 ? 1 : 0],
         [ZOOM_PER_LEVEL * level, 1],
         [ZOOM_PER_LEVEL * (level * 2) - 1, 1],
         [ZOOM_PER_LEVEL * (level * 2), 0]
       ];
-      console.table(stops);
+
+      const textField = parentCategoryName
+        ? [
+            "format",
+            parentCategoryName,
+            {
+              "font-scale": 0.75,
+              "text-font": ["literal", ["Open Sans Bold Italic"]]
+            },
+            "\n",
+            {},
+            ["get", "name"],
+            {}
+          ]
+        : ["get", "name"];
+
       map.addLayer({
         id: `category-${category.name}`,
         source: `category-${category.name}`,
         type: "symbol",
         layout: {
           "text-transform": "uppercase",
-          "text-field": ["get", "name"],
-          "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+          "text-field": textField,
+          "text-font": ["Open Sans Bold"],
           "text-anchor": "top",
           "text-size": 30
         },
@@ -296,7 +325,7 @@ export default {
       map.on("mouseleave", `category-${category.name}`, () => {
         map.getCanvas().style.cursor = "";
       });
-
+      debugger;
       return {
         childrenBounds: bounds
       };
