@@ -38,10 +38,14 @@ export default {
 
     const { clientWidth, clientHeight } = map.getContainer();
     const ZOOM_PER_LEVEL = 2;
+    let maxLevel = 1; // Current max level within parent category
+
+    window.categories = categories;
 
     const setup = ({ category, level, parentColor, parentCategoryName }) => {
       const color = parentColor || category.color;
       const bounds = new mapboxgl.LngLatBounds();
+      maxLevel = Math.max(maxLevel, level);
 
       // First setup children and extend bounds from them
       (category.categories || []).forEach(child => {
@@ -266,13 +270,13 @@ export default {
       // [3, 0] --> invisible at first, start fade in
       // [4, 1] --> end fade in at target zoom level (2*2)
       // [7, 1] --> start fade out when next level fade in starts
-      // [8, 0] --> end fade out when next level fade in ends
+      // [8, 0] --> end fade out when next level fade in ends, or leave visible if max level
 
       const stops = [
         [ZOOM_PER_LEVEL * level - 1, level === 1 ? 1 : 0],
         [ZOOM_PER_LEVEL * level, 1],
         [ZOOM_PER_LEVEL * (level * 2) - 1, 1],
-        [ZOOM_PER_LEVEL * (level * 2), 0]
+        [ZOOM_PER_LEVEL * (level * 2), level === maxLevel ? 1 : 0]
       ];
 
       const textField = parentCategoryName
@@ -301,7 +305,8 @@ export default {
           "text-anchor": "top",
           "text-size": 30,
           "text-line-height": 1,
-          "text-letter-spacing": -0.025 // Avoid spaces to create halo gap
+          "text-letter-spacing": -0.025, // Avoid spaces to create halo gap
+          "text-padding": 20
         },
         paint: {
           "text-color": color,
@@ -312,6 +317,8 @@ export default {
           }
         }
       });
+
+      console.log(maxLevel);
 
       map.on("mouseenter", `category-${category.name}`, () => {
         map.getCanvas().style.cursor = "pointer";
