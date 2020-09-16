@@ -194,13 +194,13 @@ export default {
           "text-anchor": "top",
           "text-size": {
             property: "occurrences",
-            stops: [[0, 10], [100, 22]]
+            stops: [[0, 12], [100, 22]]
           }
         },
         paint: {
-          "text-color": color,
-          "text-halo-color": "#fff",
-          "text-halo-width": 1.5,
+          "text-color": "#fff",
+          "text-halo-color": color,
+          "text-halo-width": 2,
           "text-halo-blur": 0,
           "text-translate": [0, 15]
         }
