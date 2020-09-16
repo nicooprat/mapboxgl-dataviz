@@ -3113,6 +3113,108 @@ export const categories = [
           { id: 57, name: "office management", x: 0.1898, y: 0.9431 },
           { id: 58, name: "gestion des voyages", x: 0.1903, y: 0.9562 },
           { id: 59, name: "renovation", x: 0.1739, y: 0.9121 }
+        ],
+        categories: [
+          {
+            name: "Test level 3",
+            skills: [
+              { id: 0, name: "purchasing negotiation", x: 0.1615, y: 0.892 },
+              { id: 1, name: "budget monitoring", x: 0.1844, y: 0.9234 },
+              { id: 2, name: "football", x: 0.1931, y: 0.9297 },
+              { id: 3, name: "piping", x: 0.2064, y: 0.8523 },
+              { id: 4, name: "partnerships", x: 0.15, y: 0.8704 },
+              { id: 5, name: "stock management", x: 0.1876, y: 0.9433 },
+              { id: 6, name: "short sales", x: 0.1792, y: 0.9105 },
+              { id: 7, name: "marine engineering", x: 0.1992, y: 0.9139 },
+              { id: 8, name: "architecture r\u00e9seau", x: 0.2007, y: 0.9493 },
+              { id: 9, name: "trademarks", x: 0.1777, y: 0.8658 },
+              { id: 10, name: "mathematica", x: 0.2699, y: 0.8998 },
+              { id: 11, name: "administrative law", x: 0.1851, y: 0.9513 },
+              { id: 12, name: "flow cytometry", x: 0.2156, y: 0.8866 },
+              { id: 13, name: "mutual funds", x: 0.1789, y: 0.9247 },
+              { id: 14, name: "it solutions", x: 0.1874, y: 0.9397 },
+              {
+                id: 15,
+                name: "international organizations",
+                x: 0.1728,
+                y: 0.9135
+              },
+              {
+                id: 16,
+                name: "internal & external communications",
+                x: 0.1815,
+                y: 0.941
+              },
+              { id: 17, name: "imovie", x: 0.2653, y: 0.9305 },
+              { id: 18, name: "object oriented design", x: 0.2091, y: 0.9408 },
+              { id: 19, name: "mixed signal", x: 0.2109, y: 0.9285 },
+              { id: 20, name: "comsol", x: 0.3, y: 0.9015 },
+              { id: 21, name: "analyse client\u00e8le", x: 0.1932, y: 0.9653 },
+              { id: 22, name: "footwear", x: 0.177, y: 0.85 },
+              { id: 23, name: "semi-conducteur", x: 0.2365, y: 0.9181 },
+              { id: 24, name: "screenwriting", x: 0.1984, y: 0.8826 },
+              { id: 25, name: "wcf", x: 0.2449, y: 0.9297 },
+              { id: 26, name: "powertrain", x: 0.2025, y: 0.8735 },
+              {
+                id: 27,
+                name: "contr\u00f4le des co\u00fbts",
+                x: 0.1948,
+                y: 0.9607
+              },
+              { id: 28, name: "formateur", x: 0.2065, y: 0.9641 },
+              { id: 29, name: "polymer chemistry", x: 0.2065, y: 0.869 },
+              {
+                id: 30,
+                name: "photographie \u00e9v\u00e9nementielle",
+                x: 0.1941,
+                y: 0.942
+              },
+              { id: 31, name: "zbrush", x: 0.285, y: 0.889 },
+              { id: 32, name: "corporate branding", x: 0.1703, y: 0.923 },
+              { id: 33, name: "droit des affaires", x: 0.1847, y: 0.9598 },
+              { id: 34, name: "relation client", x: 0.1964, y: 0.9797 },
+              { id: 35, name: "watches", x: 0.1631, y: 0.8816 },
+              { id: 36, name: "recherche en design", x: 0.2071, y: 0.942 },
+              { id: 37, name: "trade shows", x: 0.1758, y: 0.9226 },
+              { id: 38, name: "facturation", x: 0.1852, y: 0.979 },
+              { id: 39, name: "g\u00e9ologie", x: 0.2444, y: 0.9331 },
+              {
+                id: 40,
+                name: "gestion de l'ing\u00e9nierie",
+                x: 0.1953,
+                y: 0.9584
+              },
+              { id: 41, name: "security audits", x: 0.1864, y: 0.9469 },
+              { id: 42, name: "comprehensive planning", x: 0.184, y: 0.9157 },
+              { id: 43, name: "sales presentations", x: 0.18, y: 0.9184 },
+              {
+                id: 44,
+                name: "functional specifications",
+                x: 0.1879,
+                y: 0.8907
+              },
+              { id: 45, name: "couture", x: 0.1939, y: 0.92 },
+              { id: 46, name: "rigueur", x: 0.2096, y: 1.0 },
+              { id: 47, name: "vas", x: 0.1868, y: 0.9315 },
+              { id: 48, name: "bootstrap", x: 0.2632, y: 0.9272 },
+              { id: 49, name: "sql server", x: 0.2275, y: 0.951 },
+              { id: 50, name: "siebel", x: 0.2152, y: 0.9409 },
+              { id: 51, name: "command", x: 0.1986, y: 0.8954 },
+              { id: 52, name: "process simulation", x: 0.2144, y: 0.9311 },
+              {
+                id: 53,
+                name: "droit des march\u00e9s publics",
+                x: 0.184,
+                y: 0.959
+              },
+              { id: 54, name: "audacity", x: 0.2687, y: 0.9227 },
+              { id: 55, name: "subsea engineering", x: 0.1973, y: 0.8992 },
+              { id: 56, name: "client relations skills", x: 0.1905, y: 0.9514 },
+              { id: 57, name: "office management", x: 0.1898, y: 0.9431 },
+              { id: 58, name: "gestion des voyages", x: 0.1903, y: 0.9562 },
+              { id: 59, name: "renovation", x: 0.1739, y: 0.9121 }
+            ]
+          }
         ]
       },
       {

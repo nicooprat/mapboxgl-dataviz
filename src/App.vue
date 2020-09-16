@@ -55,7 +55,7 @@ export default {
           parentColor: color,
           parentCategoryName: [parentCategoryName, category.name]
             .filter(Boolean)
-            .join(" > ")
+            .join("  /  ")
         });
         bounds.extend(childrenBounds);
       });
@@ -275,10 +275,11 @@ export default {
       const stops = [
         [ZOOM_PER_LEVEL * level - 1, level === 1 ? 1 : 0],
         [ZOOM_PER_LEVEL * level, 1],
-        [ZOOM_PER_LEVEL * (level * 2) - 1, 1],
-        [ZOOM_PER_LEVEL * (level * 2), level === maxLevel ? 1 : 0]
+        [ZOOM_PER_LEVEL * (level + 1) - 1, 1],
+        [ZOOM_PER_LEVEL * (level + 1), level === maxLevel ? 1 : 0]
       ];
 
+      // Add subtitle above label if child category
       const textField = parentCategoryName
         ? [
             "format",
@@ -305,8 +306,8 @@ export default {
           "text-anchor": "top",
           "text-size": 30,
           "text-line-height": 1,
-          "text-letter-spacing": -0.025, // Avoid spaces to create halo gap
-          "text-padding": 20
+          "text-ignore-placement": true, // Allow child category labels to bo visible even if colliding
+          "text-letter-spacing": -0.025 // Prevent spaces from creating halo gaps
         },
         paint: {
           "text-color": color,
@@ -317,8 +318,6 @@ export default {
           }
         }
       });
-
-      console.log(maxLevel);
 
       map.on("mouseenter", `category-${category.name}`, () => {
         map.getCanvas().style.cursor = "pointer";
