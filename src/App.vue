@@ -272,11 +272,19 @@ export default {
       // [7, 1] --> start fade out when next level fade in starts
       // [8, 0] --> end fade out when next level fade in ends, or leave visible if max level
 
-      const stops = [
+      const opacityStops = [
         [ZOOM_PER_LEVEL * level - 1, level === 1 ? 1 : 0],
         [ZOOM_PER_LEVEL * level, 1],
         [ZOOM_PER_LEVEL * (level + 1) - 1, 1],
         [ZOOM_PER_LEVEL * (level + 1), level === maxLevel ? 1 : 0]
+      ];
+
+      const MIN_FONT_SIZE = 10;
+      const MAX_FONT_SIZE = 45;
+
+      const fontSizeStops = [
+        [ZOOM_PER_LEVEL * level - 1, MIN_FONT_SIZE],
+        [ZOOM_PER_LEVEL * (level + 1), MAX_FONT_SIZE]
       ];
 
       // Add subtitle above label if child category
@@ -304,17 +312,19 @@ export default {
           "text-field": textField,
           "text-font": ["Open Sans Bold"],
           "text-anchor": "top",
-          "text-size": 30,
+          "text-size": {
+            stops: fontSizeStops
+          },
           "text-line-height": 1,
           "text-ignore-placement": true, // Allow child category labels to bo visible even if colliding
-          "text-letter-spacing": -0.025 // Prevent spaces from creating halo gaps
+          "text-letter-spacing": -0.03 // Prevent spaces from creating halo gaps
         },
         paint: {
           "text-color": color,
           "text-halo-color": "#fff",
           "text-halo-width": 10,
           "text-opacity": {
-            stops
+            stops: opacityStops
           }
         }
       });
