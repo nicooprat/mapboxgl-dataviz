@@ -22,7 +22,7 @@ export default {
       style: {
         version: 8,
         name: "Empty",
-        glyphs: "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+        glyphs: "mapbox://fonts/mapbox/{fontstack}/{range}.pbf", // Should be generated & self-hosted: https://github.com/geops/mapbox-gl-fonts
         sources: {},
         layers: [
           {
@@ -131,7 +131,7 @@ export default {
             // decrease opacity to transition into the circle layer
             "heatmap-opacity": {
               default: 1,
-              stops: [[3, 1], [5, 0.5]]
+              stops: [[3, 0.5], [5, 0.25]]
             }
           }
         },
@@ -322,7 +322,7 @@ export default {
         paint: {
           "text-color": color,
           "text-halo-color": "#fff",
-          "text-halo-width": 100,
+          "text-halo-width": 3,
           "text-opacity": {
             stops: opacityStops
           }
