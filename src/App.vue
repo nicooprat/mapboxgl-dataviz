@@ -168,7 +168,7 @@ export default {
         type: "symbol",
         layout: {
           "text-field": ["get", "occurrences"],
-          "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+          "text-font": ["Roboto Bold", "Arial Unicode MS Bold"],
           "text-size": {
             property: "occurrences",
             stops: [[0, 10], [100, 16]]
@@ -177,6 +177,7 @@ export default {
         },
         paint: {
           "text-color": "#fff",
+          "text-translate": [0, 2],
           "text-opacity": {
             stops: [[3, 0], [4, 1]]
           }
@@ -190,7 +191,7 @@ export default {
         type: "symbol",
         layout: {
           "text-field": ["get", "name"],
-          "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+          "text-font": ["Roboto Regular", "Arial Unicode MS Bold"],
           "text-anchor": "top",
           "text-size": {
             property: "occurrences",
@@ -310,19 +311,18 @@ export default {
         layout: {
           "text-transform": "uppercase",
           "text-field": textField,
-          "text-font": ["Open Sans Bold"],
+          "text-font": ["Roboto Bold", "Arial Unicode MS Bold"],
           "text-anchor": "top",
           "text-size": {
             stops: fontSizeStops
           },
           "text-line-height": 1,
-          "text-ignore-placement": true, // Allow child category labels to bo visible even if colliding
-          "text-letter-spacing": -0.03 // Prevent spaces from creating halo gaps
+          "text-ignore-placement": true // Allow child category labels to bo visible even if colliding
         },
         paint: {
           "text-color": color,
           "text-halo-color": "#fff",
-          "text-halo-width": 10,
+          "text-halo-width": 100,
           "text-opacity": {
             stops: opacityStops
           }
